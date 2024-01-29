@@ -1,6 +1,7 @@
 package edu.neu.coe.info6205.threesum;
 
 import edu.neu.coe.info6205.util.Benchmark_Timer;
+import edu.neu.coe.info6205.util.Stopwatch;
 import edu.neu.coe.info6205.util.TimeLogger;
 import edu.neu.coe.info6205.util.Utilities;
 
@@ -13,6 +14,35 @@ public class ThreeSumBenchmark {
         this.runs = runs;
         this.supplier = new Source(n, m).intsSupplier(10);
         this.n = n;
+        int[] ints = supplier.get();
+
+        ThreeSum threeSumQuadraticBenchMark = new ThreeSumQuadratic(ints);
+        ThreeSum threeSumQuadraticWithCalipersBenchMark = new ThreeSumQuadraticWithCalipers(ints);
+        ThreeSum threeSumCubicBenchMark = new ThreeSumCubic(ints);
+        ThreeSum threeSumQuadrithmic = new ThreeSumQuadrithmic(ints);
+
+
+        Stopwatch timer1 = new Stopwatch();
+        Triple[] triples1 = threeSumQuadraticBenchMark.getTriples();
+        long time1 = timer1.lap();
+
+        Stopwatch timer2 = new Stopwatch();
+        Triple[] triples2 = threeSumQuadraticWithCalipersBenchMark.getTriples();
+        long time2 = timer2.lap();
+
+        Stopwatch timer4 = new Stopwatch();
+        Triple[] triples4 = threeSumQuadrithmic.getTriples();
+        long time4 = timer4.lap();
+
+        Stopwatch timer3 = new Stopwatch();
+        Triple[] triples3 = threeSumCubicBenchMark.getTriples();
+        long time3 = timer3.lap();
+
+        System.out.println("N = "+ ints.length);
+        System.out.println(" time taken for: ThreeSumQuadratic : "+ time1+"ms" );
+        System.out.println(" time taken for: ThreeSumQuadraticWithCalipers : "+ time2+"ms" );
+        System.out.println(" time taken for: ThreeSumCubic : "+ time3+"ms" );
+        System.out.println(" time taken for: ThreeSumQuadrithmic : "+ time4+"ms" );
     }
 
     public void runBenchmarks() {
@@ -28,13 +58,16 @@ public class ThreeSumBenchmark {
         new ThreeSumBenchmark(20, 1000, 1000).runBenchmarks();
         new ThreeSumBenchmark(10, 2000, 2000).runBenchmarks();
         new ThreeSumBenchmark(5, 4000, 4000).runBenchmarks();
-        new ThreeSumBenchmark(3, 8000, 8000).runBenchmarks();
-        new ThreeSumBenchmark(2, 16000, 16000).runBenchmarks();
+        new ThreeSumBenchmark(2, 8000, 8000).runBenchmarks();
+//        new ThreeSumBenchmark(2, 16000, 16000).runBenchmarks();
     }
 
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
         if (description.equals("ThreeSumCubic") && n > 4000) return;
-        // TO BE IMPLEMENTED 
+        // TO BE IMPLEMENTED
+//        try (Stopwatch stopwatch = new Stopwatch()) {
+//            Triple[] output = function.accept();
+//        }
 
 
 
@@ -43,7 +76,7 @@ public class ThreeSumBenchmark {
 
 
 
-throw new RuntimeException("implementation missing");
+//throw new RuntimeException("implementation missing");
     }
 
     private final static TimeLogger[] timeLoggersCubic = {
