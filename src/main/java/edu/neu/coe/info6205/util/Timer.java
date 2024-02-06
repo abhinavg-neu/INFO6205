@@ -22,6 +22,9 @@ public class Timer {
      * @return the average milliseconds per repetition.
      */
     public <T> double repeat(int n, Supplier<T> function) {
+       //pause timer
+        //pre function - get output
+       //resume
         for (int i = 0; i < n; i++) {
             function.get();
             lap();
@@ -63,31 +66,30 @@ public class Timer {
         // TO BE IMPLEMENTED : note that the timer is running when this method is called and should still be running when it returns.
 
 
+    for (int i =0; i < n ; i++) {
+        pause();
+
+        T t = supplier.get();
+        if(preFunction != null)
+        t = preFunction.apply(t);
+
+        resume();
+        U u = function.apply(t);
+
+        pause();
+
+        if(postFunction!= null)
+            postFunction.accept(u);
+
+        //resuming to execute lap
+        resume();
+        lap();
+    }
+
+    pause();
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // SKELETON
-         return 0;
+         return meanLapTime();
         // END SOLUTION
     }
 
@@ -213,11 +215,8 @@ public class Timer {
      * @return the number of ticks for the system clock. Currently defined as nano time.
      */
     private static long getClock() {
-        // TO BE IMPLEMENTED 
 
-        // SKELETON
-         return 0;
-        // END SOLUTION
+         return System.nanoTime();
     }
 
     /**
@@ -231,7 +230,7 @@ public class Timer {
         // TO BE IMPLEMENTED 
 
         // SKELETON
-         return 0;
+         return (ticks/1000000);
         // END SOLUTION
     }
 

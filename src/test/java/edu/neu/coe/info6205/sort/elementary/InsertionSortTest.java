@@ -70,6 +70,7 @@ public class InsertionSortTest {
         list.add(2);
         list.add(1);
         Integer[] xs = list.toArray(new Integer[0]);
+        System.out.println(System.getProperty("user.dir"));
         BaseHelper<Integer> helper = new BaseHelper<>("InsertionSort", xs.length, Config.load(InsertionSortTest.class));
         GenericSort<Integer> sorter = new InsertionSort<Integer>(helper);
         sorter.mutatingSort(xs);

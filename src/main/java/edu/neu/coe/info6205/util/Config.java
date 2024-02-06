@@ -141,6 +141,7 @@ public class Config {
         if (clazz != null) resource = clazz.getResource(name);
         if (resource == null)
             resource = Config.class.getResource("/" + name);
+        System.out.println(resource);
         if (resource != null) return new Config(resource);
         throw new IOException("resource " + name + " not found for " + clazz);
     }
