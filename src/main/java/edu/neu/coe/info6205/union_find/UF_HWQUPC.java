@@ -8,6 +8,7 @@
 package edu.neu.coe.info6205.union_find;
 
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Height-weighted Quick Union with Path Compression
@@ -80,14 +81,13 @@ public class UF_HWQUPC implements UF {
      */
     public int find(int p) {
         validate(p);
-        int root = p;
-        // TO BE IMPLEMENTED 
-
-
-
-
-
-throw new RuntimeException("implementation missing");
+        // TO BE IMPLEMENTED
+         if(parent[p] != p) {
+             if(pathCompression) doPathCompression(p);
+             return find(parent[p]);
+        } else {
+             return p;
+         }
     }
 
     /**
@@ -174,12 +174,18 @@ throw new RuntimeException("implementation missing");
 
     private void mergeComponents(int i, int j) {
         // TO BE IMPLEMENTED  make shorter root point to taller one
+        int heightI = height[i];
+        int heightJ = height[j];
+        int smallHead = find(i);
+        int bigHead = find(j);
 
-
-
-
-
-
+        if (heightI < heightJ) {
+            parent[smallHead] = bigHead;
+            updateHeight(bigHead,smallHead);
+        } else {
+            parent[bigHead] = smallHead;
+            updateHeight(smallHead,bigHead);
+        }
 
         // SKELETON
         // END SOLUTION
@@ -190,8 +196,45 @@ throw new RuntimeException("implementation missing");
      */
     private void doPathCompression(int i) {
         // TO BE IMPLEMENTED  update parent to value of grandparent
-
+        parent[i] = parent[parent[i]];
         // SKELETON
         // END SOLUTION
+    }
+
+    public static void main(String[] args) throws IllegalArgumentException{
+        int runs = 200;
+        if (args.length == 0) {
+            throw new IllegalArgumentException("Enter N as a parameter for the file");
+        }
+        for (int i = 1; i <= Integer.parseInt(args[0]); i++) {
+            int totalSum = 0;
+            for (int j = 0; j < runs; j++) {
+                UF_HWQUPC uf = new UF_HWQUPC(i);
+                totalSum = totalSum + getSum(uf, i);
+            }
+            double m = totalSum / runs;
+            System.out.println("n: " + i + " m: " + m);
+        }
+    }
+
+    public static int getSum(UF_HWQUPC uf, int i) {
+        int sum = 0;
+        Random random = new Random();
+
+        while (uf.components() > 1) {
+
+        int a = random.nextInt(i);
+        int b = random.nextInt(i);
+
+        if (a == b) {
+            continue;
+        }
+            if (!uf.connected(a, b)) {
+                uf.union(a, b);
+                sum++;
+            }
+        }
+        return sum;
+
     }
 }

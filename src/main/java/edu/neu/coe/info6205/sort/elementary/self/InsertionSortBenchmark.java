@@ -12,14 +12,15 @@ public class InsertionSortBenchmark {
         executeCases();
     }
 
-    private static void executeCases() throws Exception{
+    private static void executeCases() {
         Integer[] arr1 = new Integer[]{4,7,1,10,15};
         System.out.println("Test 1: Inital Array");
         for (int i = 0; i < arr1.length; i++) {
             System.out.print(arr1[i] + ", ");
         }
-        BaseHelper<Integer> helper = new BaseHelper<>("InsertionSort", arr1.length, Config.load(InsertionSort.class));
-        InsertionSort insertionSort = new InsertionSort<Integer>(helper);
+//        Config.load(InsertionSortBenchmark.class);
+//        BaseHelper<Integer> helper = new BaseHelper<>("InsertionSort", arr1.length, Config.load(InsertionSort.class));
+        InsertionSort insertionSort = new InsertionSort<Integer>();
           insertionSort.sort(arr1,0, arr1.length);
         System.out.println("Test 1: Sorted Array");
 
