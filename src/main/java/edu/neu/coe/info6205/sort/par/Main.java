@@ -18,18 +18,29 @@ public class Main {
 
     public static void main(String[] args) {
         processArgs(args);
-        System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
+        System.out.println("Total Threads in Common Pool:"+ ForkJoinPool.getCommonPoolParallelism());
+        for(int i=2;i<=32;i= i*2){
+            runSortingLogic(i);
+        }
+    }
+
+    private static void runSortingLogic(int threads) {
+//        System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
+        System.out.println("Degree of parallelism: " + threads);
+        System.out.println("Array Length: " + 10000000);
+
+        ForkJoinPool newPool = new ForkJoinPool(threads);
         Random random = new Random();
-        int[] array = new int[2000000];
+        int[] array = new int[10000000];
         ArrayList<Long> timeList = new ArrayList<>();
-        for (int j = 50; j < 100; j++) {
+        for (int j = 50; j < 51; j++) {
             ParSort.cutoff = 10000 * (j + 1);
             // for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
             long time;
             long startTime = System.currentTimeMillis();
             for (int t = 0; t < 10; t++) {
                 for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
-                ParSort.sort(array, 0, array.length);
+                ParSort.sort(array, 0, array.length,newPool);
             }
             long endTime = System.currentTimeMillis();
             time = (endTime - startTime);
@@ -40,7 +51,7 @@ public class Main {
 
         }
         try {
-            FileOutputStream fis = new FileOutputStream("./src/result.csv");
+            FileOutputStream fis = new FileOutputStream("./src/"+"threadCount"+threads+"_result.csv");
             OutputStreamWriter isr = new OutputStreamWriter(fis);
             BufferedWriter bw = new BufferedWriter(isr);
             int j = 0;
@@ -55,6 +66,7 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     private static void processArgs(String[] args) {
@@ -74,7 +86,7 @@ public class Main {
         if (x.equalsIgnoreCase("N")) setConfig(x, Integer.parseInt(y));
         else
             // TODO sort this out
-            if (x.equalsIgnoreCase("P")) //noinspection ResultOfMethodCallIgnored
+            if (x.equalsIgnoreCase("P"))
                 ForkJoinPool.getCommonPoolParallelism();
     }
 
