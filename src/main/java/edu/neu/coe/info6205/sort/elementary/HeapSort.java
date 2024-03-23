@@ -2,11 +2,16 @@ package edu.neu.coe.info6205.sort.elementary;
 
 import edu.neu.coe.info6205.sort.Helper;
 import edu.neu.coe.info6205.sort.SortWithHelper;
+import edu.neu.coe.info6205.util.Config;
 
 public class HeapSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     public HeapSort(Helper<X> helper) {
         super(helper);
+    }
+
+    public HeapSort(String description, int N, Config config) {
+        super(description, N, config);
     }
 
     @Override
