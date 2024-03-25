@@ -93,4 +93,5 @@ public class RandomWalk {
             System.out.println(m + " : " + meanDistance );
         }
     }
+
 }
